@@ -1,8 +1,11 @@
 package flashcard;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +17,9 @@ public class FlashcardApp {
     private String choice2;
     private Scanner sc = new Scanner(System.in);  
     private long totalTime = 0;
-
+    File file ;
     public void loadCards(String filename) throws IOException {
-        File file = new File(filename);
+        file = new File(filename);
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                 String line;
@@ -30,7 +33,19 @@ public class FlashcardApp {
             loadCards(filename);  
         }
     }
-
+    public void end() throws FileNotFoundException, IOException{
+        if (file.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                 for (Folder folder : folders) {
+                    writer.write(folder.toString());
+                    writer.newLine();
+                 }
+            }
+        } else {
+            file.createNewFile();
+        }
+        System.exit(0);  
+    }
     public void getFoldersName() {
         int a = 1;
         for (Folder folder : folders) {
@@ -44,8 +59,6 @@ public class FlashcardApp {
     }
 
     public void game(Folder folder) {
-      
-        folder.begin();
         long startTime = System.nanoTime();
           while (folder.checkRepetitions()){
             design("IN GAME");
@@ -54,17 +67,19 @@ public class FlashcardApp {
             System.out.println(folder.returnAnswer(choice));      
           }
           totalTime = System.nanoTime() - startTime;
-          System.out.println("Time: " + totalTime / 1000 + "us, Correct answers: " + folder.getCountCorrect());
+          System.out.println("Time: " + totalTime /1000000 + "    , Correct answers: " + folder.getCountCorrect());
           AchievementTracker.checkAchievements(folder.getCards());
+          folder.begin();
           forFolder(folder);
     }
+     
 
     public void input() {
         System.out.print("Enter your choice here: ");
         choice = sc.nextLine();
     }
 
-    public void forFolder(Folder folder) {
+    public void forFolder(Folder folder){
         design(folder.getName());
         System.out.println("Flashcard ------------------------------ Subject name " + folder.getName());
         System.out.println("start");
@@ -80,7 +95,12 @@ public class FlashcardApp {
                 start();  
                 break;
             case "end":
-                System.exit(0);  
+                try {
+                    end();
+                } catch (IOException e) {
+                  
+                    e.printStackTrace();
+                }
                 break;
             default:
                 handleCommandOrError(folder);
@@ -98,7 +118,7 @@ public class FlashcardApp {
             folder = commandInterface(folder);
             forFolder(folder);
         } else {
-            forFolder(folder);
+            callError("Error");
         }
     }
     public Folder commandInterface(Folder folder) {
@@ -124,8 +144,9 @@ public class FlashcardApp {
                 folder.worstFirst();  
                 System.out.println("Successful");
             } else if (comm.equalsIgnoreCase("recent-mistakes-first")) {
-                RecentMistakesFirstSorter rc = new RecentMistakesFirstSorter();
-                folder.setCards(rc.organize(folder.getCards())); 
+                RecentMistakesFirstSorter  recentMistakesFirstSorter = new RecentMistakesFirstSorter();
+
+                folder.setCards(recentMistakesFirstSorter.organize(folder.getCards()));
                 System.out.println("Successful");
             } else {
                 callError("Invalid option for --order. Valid options are: random, worst-first, recent-mistakes-first.");
@@ -206,7 +227,12 @@ public class FlashcardApp {
                 start();
                 break;
             case "3":
-                System.exit(0);
+                try {
+                    end();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 break;
             default:
                 callError("Invalid input.");
@@ -232,5 +258,5 @@ public class FlashcardApp {
             folderInterface(); 
         }
     }
-    
+
 }

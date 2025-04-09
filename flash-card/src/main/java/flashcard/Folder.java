@@ -11,10 +11,10 @@ public class Folder {
     private boolean invertCards = false; 
     private int countQuestions;
     private int repetitions = 1;
-    private int index = 0;
+    private int index = -1;
     private int tempre = repetitions;
     public Folder() {}
-
+  
     public Folder(String str) {
         String[] parts = str.split(";");
         this.name = parts[0];
@@ -24,7 +24,17 @@ public class Folder {
             cards.add(new Card(cardString));
         }
     }
-   
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append(name);
+        str.append(";");
+        for (Card card : cards) {
+            str.append(card.toString());
+            str.append("//");
+        }
+        return str.toString();
+    }
     public void randomCards() {
         Random random = new Random();
         for (int i = cards.size() - 1; i > 0; i--) {
@@ -40,7 +50,7 @@ public class Folder {
     public void worstFirst(){
         for (int i = 0; i < cards.size() - 1; i++) {
             for (int j = 0; j < cards.size() - i - 1; j++) {
-                if (cards.get(j).getMistakeCount() > cards.get(j + 1).getMistakeCount()) {
+                if (cards.get(j).getMistakeCount() < cards.get(j + 1).getMistakeCount()) {
                     Card temp = cards.get(j);
                     cards.set(j, cards.get(j + 1));
                     cards.set(j + 1, temp);
@@ -70,9 +80,12 @@ public class Folder {
         int index = choice - 'a';
         
         if (index >= 0 && index < options.length && options[index].equals(getCorrectAnswer())) {
+
             countCorrect++;
+            selectedCard.markCorrect();
             return " Correct! [" + getCorrectAnswer() + "]";
         }
+        selectedCard.markIncorrect();
         return " InCorrect ! Correct is : " + getCorrectAnswer();
 
     }
@@ -98,11 +111,15 @@ public class Folder {
         this.repetitions = repetitions;
         this.tempre = repetitions;
     }
+    
     public boolean checkRepetitions(){
-        if(repetitions <= 1 && index == cards.size()-1){
-            index = 0;
+        if(index == cards.size()-1){
+            index = -1;
+            if(repetitions < 1){
             repetitions = tempre;
+           
             return false;
+            }
         }
         return true;
     }
@@ -137,10 +154,10 @@ public class Folder {
         shuffleArray(options);
         countQuestions++;
         System.out.println(countQuestions + ". Question : " + getCardQuestion() + " ?");
-        System.out.println("a. " + options[0] + "\tb. " + options[1] + "\tc. " + options[2] + "\td. " + options[3]);
+        System.out.println("a. " + options[0] + "\nb. " + options[1] + "\nc. " + options[2] + "\nd. " + options[3]);
     }
     
-
+    
     public List<Card> getCards() {
         return cards;
     }
