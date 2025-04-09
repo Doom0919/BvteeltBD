@@ -75,7 +75,7 @@ public class FlashcardApp {
      
 
     public void input() {
-        System.out.print("Enter your choice here: ");
+        System.out.print("Enter your input here: ");
         choice = sc.nextLine();
     }
 
@@ -85,6 +85,7 @@ public class FlashcardApp {
         System.out.println("start");
         System.out.println("back");
         System.out.println("end");
+        System.out.println("add - Card");
         input();
 
         switch (choice.toLowerCase()) {
@@ -101,7 +102,13 @@ public class FlashcardApp {
                   
                     e.printStackTrace();
                 }
+
                 break;
+
+            case "add":
+            Folder fr = addCard(folder);
+           forFolder(fr);
+            break;
             default:
                 handleCommandOrError(folder);
               
@@ -109,7 +116,16 @@ public class FlashcardApp {
         }
     }
     
- 
+    public Folder addCard(Folder folder){
+        System.out.println("Question : ");
+        input();
+        String question = choice;
+        System.out.println("Answer : ");
+        input();
+        String answer = choice;
+        folder.addCard(answer, question);
+        return folder;
+    }
     public void design(String Name){
         System.out.println("\n\n\n\n\n\n"+" ------------"+Name+"-------------");
     }
@@ -246,15 +262,26 @@ public class FlashcardApp {
         System.out.println("Error reported: " + choice);
         callError("Returning to main menu.");
     }
-
+     public void addFolder(){
+       System.out.println("Name folder : ");
+       input();
+       Folder folder = new Folder();
+       folder.setName(choice);
+       folders.add(folder);
+     }
     public void start() {
         design("SUBJECT NAMES");
         getFoldersName();
+        System.out.println("add - add folder");
         input();  
 
         if (choice.equalsIgnoreCase("end")) {
             System.exit(0);  
-        } else {
+        }else if(choice.equalsIgnoreCase("add")){
+            addFolder();
+            start();
+        }
+         else {
             folderInterface(); 
         }
     }

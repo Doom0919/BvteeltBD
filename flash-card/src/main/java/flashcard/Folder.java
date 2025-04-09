@@ -157,7 +157,10 @@ public class Folder {
         System.out.println("a. " + options[0] + "\nb. " + options[1] + "\nc. " + options[2] + "\nd. " + options[3]);
     }
     
-    
+    public void addCard(String answer , String question){
+       Card card = new Card(question,answer);
+       cards.add(card);
+    }
     public List<Card> getCards() {
         return cards;
     }
