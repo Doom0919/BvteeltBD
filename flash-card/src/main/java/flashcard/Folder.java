@@ -37,12 +37,19 @@ public class Folder {
     }
     public void randomCards() {
         Random random = new Random();
+        if(cards == null){
+
+        }
+        else{
+
+    
         for (int i = cards.size() - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
             Card temp = cards.get(i);
             cards.set(i, cards.get(j));
             cards.set(j, temp);
         }
+    }
     }
    public void setCards(List<Card> cards) {
        this.cards = cards;
@@ -161,6 +168,10 @@ public class Folder {
        Card card = new Card(question,answer);
        cards.add(card);
     }
+    public void addCard(String answer , String question , int mistakes , int corrects){
+        Card card = new Card(question,answer, mistakes , corrects);
+        cards.add(card);
+     }
     public List<Card> getCards() {
         return cards;
     }

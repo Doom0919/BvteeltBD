@@ -18,6 +18,22 @@ public class FlashcardApp {
     private Scanner sc = new Scanner(System.in);  
     private long totalTime = 0;
     File file ;
+    private boolean testMode = false;  
+    public List<Folder> getFolders() {
+        return folders;
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
+    
+
+    public void setScanner(Scanner sc) {
+        this.sc = sc;
+    }
     public void loadCards(String filename) throws IOException {
         file = new File(filename);
         if (file.exists()) {
@@ -44,7 +60,9 @@ public class FlashcardApp {
         } else {
             file.createNewFile();
         }
-        System.exit(0);  
+        if (!testMode) {
+            System.exit(0);  
+        }
     }
     public void getFoldersName() {
         int a = 1;
@@ -142,16 +160,19 @@ public class FlashcardApp {
             showHelp();
             return folder;
         }
-        int start = choice.indexOf('<') + 1;
-        int end = choice.indexOf('>');
         String comm = "";
-        if (start != -1 && end != -1) {
-            comm = choice.substring(start, end).trim();  
+        int start = choice.indexOf('<');
+        int end = choice.indexOf('>');
+    
+        if (start != -1 && end != -1 && end > start) {
+            comm = choice.substring(start + 1, end).trim();
+        } else if (choice.contains(" ")) {
+            comm = choice.substring(choice.indexOf(' ') + 1).trim();
         } else {
-            comm = choice.substring(choice.indexOf(' ') + 1).trim(); 
+            callError("Invalid command format. Please use --help for guidance.");
+            return folder;
         }
     
-      
         if (choice.startsWith("--order")) {
             if (comm.equalsIgnoreCase("random")) {
                 folder.randomCards(); 
@@ -160,15 +181,13 @@ public class FlashcardApp {
                 folder.worstFirst();  
                 System.out.println("Successful");
             } else if (comm.equalsIgnoreCase("recent-mistakes-first")) {
-                RecentMistakesFirstSorter  recentMistakesFirstSorter = new RecentMistakesFirstSorter();
-
+                RecentMistakesFirstSorter recentMistakesFirstSorter = new RecentMistakesFirstSorter();
                 folder.setCards(recentMistakesFirstSorter.organize(folder.getCards()));
                 System.out.println("Successful");
             } else {
                 callError("Invalid option for --order. Valid options are: random, worst-first, recent-mistakes-first.");
             }
-        } 
-        else if (choice.startsWith("--repetitions")) {
+        } else if (choice.startsWith("--repetitions")) {
             try {
                 int rep = Integer.parseInt(comm);  
                 if (rep < 1) {
@@ -179,15 +198,12 @@ public class FlashcardApp {
             } catch (NumberFormatException e) {
                 callError("Invalid repetitions number. Please enter a valid number.");
             }
-        } 
-        
-        else if (choice.startsWith("--invertCards")) {
+        } else if (choice.startsWith("--invertCards")) {
             folder.setInvertCards(!folder.isInvertCards()); 
-        } 
-        else {
+        } else {
             callError("Invalid command. Please use --help for assistance.");
         }
-        
+    
         choice = choice2; 
         return folder;
     }

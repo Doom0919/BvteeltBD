@@ -16,6 +16,12 @@ public class Card {
         this.question = question;
         this.answer = answer;
     }
+    public Card(String question, String answer , int mis , int cor) {
+        this.question = question;
+        this.answer = answer;
+        this.correctCount = cor;
+        this.mistakeCount = mis;
+    }
     public int getRecentMistake() {
         return recentMistake;
     }
