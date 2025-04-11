@@ -3,4 +3,6 @@ flashcard\RecentMistakesFirstSorter.class
 flashcard\FlashcardApp.class
 flashcard\Card.class
 flashcard\App.class
+flashcard\Feedback.class
 flashcard\CardOrganizer.class
+flashcard\Folder.class
