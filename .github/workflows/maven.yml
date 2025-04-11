@@ -2,13 +2,12 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +29,9 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: Build with Maven
+      working-directory: flash-card  # Set working directory to where pom.xml is located
       run: mvn clean install
 
     - name: Run tests
+      working-directory: flash-card  # Ensure tests run from the correct directory
       run: mvn test
