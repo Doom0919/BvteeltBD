@@ -1,24 +1,34 @@
 package flashcard;
 
 import java.util.List;
+
 public class AchievementTracker {
-    public static StringBuilder str = new StringBuilder();
+
+    private static final int FAST_TIME_THRESHOLD_MS = 5000;
+    private static final int REPEAT_THRESHOLD = 5;
+    private static final int CONFIDENT_THRESHOLD = 3;
+
     public static void checkAchievements(List<Card> cards) {
-        boolean allCorrect = cards.stream().allMatch(c -> c.getRecentMistake() == 0);
-        boolean repeatedCard = cards.stream().anyMatch(c -> c.encounter  > 5);
-        boolean confident = cards.stream().anyMatch(c -> c.correct >= 3);
-        if (allCorrect){ System.out.println("Achievement Unlocked: CORRECT!");
-            str.append("Achievement Unlocked: CORRECT!");
+        boolean allCorrect = cards.stream().allMatch(Card::getPrevious);
+
+        long totalTime = 0;
+        for (Card card : cards) {
+            totalTime += card.time;
         }
 
-        if (repeatedCard) {System.out.println("Achievement Unlocked: REPEAT!");
-             str.append("Achievement Unlocked: REPEAT!");
-      
-         }
-        if (confident) {System.out.println("Achievement Unlocked: CONFIDENT!");
-        str.append("Achievement Unlocked: CONFIDENT!");
+        long avgTime = cards.size() > 0 ? totalTime / cards.size() : Long.MAX_VALUE;
+        boolean fast = avgTime < FAST_TIME_THRESHOLD_MS;
 
+        if (fast) unlock("FAST THINKER");
+        if (allCorrect) unlock("ALL CORRECT");
     }
+
+    public static void checkAchievementsforCard(Card card) {
+        if (card.getTotalAttempts() > REPEAT_THRESHOLD) unlock("REPEATED LEARNER");
+        if (card.getCorrectCount() > CONFIDENT_THRESHOLD) unlock("CONFIDENT MASTER");
+    }
+
+    private static void unlock(String name) {
+        System.out.println(" Achievement Unlocked: " + name + "!");
     }
 }
-

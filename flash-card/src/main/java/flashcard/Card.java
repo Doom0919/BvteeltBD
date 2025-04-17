@@ -1,32 +1,17 @@
 package flashcard;
 
 public class Card {
-    private String question;
-    private String answer;
-    private int mistakeCount = 0;
+    private final String question;
+    private final String answer;
     private int correctCount = 0;
-    private int recentMistake = 0;
-    public int correct = 0;
-    public int encounter = 0;
-
-    public String toString(){
-        return question+"/"+answer+"/"+correctCount+"/"+mistakeCount;
-    }
+    private int incorrectCount = 0;
+    private int totalAttempts = 0;
+    private boolean previous = true;
+    public long time;
+    
     public Card(String question, String answer) {
         this.question = question;
         this.answer = answer;
-    }
-    public Card(String question, String answer , int mis , int cor) {
-        this.question = question;
-        this.answer = answer;
-        this.correctCount = cor;
-        this.mistakeCount = mis;
-    }
-    public int getRecentMistake() {
-        return recentMistake;
-    }
-    public void setRecentMistake(int recentMistake) {
-        this.recentMistake = recentMistake;
     }
 
     public Card(String str){
@@ -35,18 +20,40 @@ public class Card {
         this.answer = temp[1];
         try {
         this.correctCount = Integer.parseInt(temp[2]);
-        this.mistakeCount = Integer.parseInt(temp[3]);
+        this.incorrectCount = Integer.parseInt(temp[3]);
+        this.totalAttempts = Integer.parseInt(temp[4]);
+        this.previous = Boolean.parseBoolean(temp[5]);
         } catch (NumberFormatException e) {
         e.printStackTrace();
         }
     }
-   
-    public void markCorrect() { correctCount++; correct++; }
-    public void markIncorrect() { mistakeCount++ ; recentMistake++; }
-    
-    public int getMistakeCount() { return mistakeCount; }
-    public int getCorrectCount() { return correctCount; }
-    
-    public String getQuestion() {encounter++; return question; }
+    public String toString(){
+        return question+"/"+answer+"/"+correctCount+"/"+incorrectCount+"/"+totalAttempts+"/"+previous;
+    }
+    public String getQuestion() { 
+      
+        return question;
+     }
     public String getAnswer() { return answer; }
+
+    public boolean getPrevious(){
+        return previous;
+    }
+    
+    public void setPrevious(boolean previous){
+        this.previous = previous;
+    }
+    public int getCorrectCount() { return correctCount; }
+    public int getIncorrectCount() { return incorrectCount; }
+    public int getTotalAttempts() { return totalAttempts; }
+    public void incorrectAnswer(){
+        totalAttempts++;
+        incorrectCount++;
+        previous = false;
+    }    
+    public void correctAnswer(){
+        totalAttempts++;
+        previous = true;
+        correctCount++;
+    }
 }

@@ -1,0 +1,57 @@
+# Created at 2025-04-11T12:21:57.036
+Unexpected IOException with stream: 
+
+
+
+
+
+ ------------Error-------------
+
+
+# Created at 2025-04-11T12:21:57.037
+Unexpected IOException with stream: Error: Invalid input.
+
+
+# Created at 2025-04-11T12:21:57.039
+Unexpected IOException with stream: 1. Report an error
+
+
+# Created at 2025-04-11T12:21:57.040
+Unexpected IOException with stream: 2. Restart
+
+
+# Created at 2025-04-11T12:21:57.041
+Unexpected IOException with stream: 3. End
+
+
+# Created at 2025-04-11T12:21:57.042
+Unexpected IOException with stream: Enter your input here: 
+
+# Created at 2025-04-11T12:21:57.102
+Unexpected IOException: 7,1,flashcard.FlashcardAppTest,testCommandParsing_invalid,null,No line found,null,No line found,FlashcardAppTest.testCommandParsing_invalid:55 \00BB NoSuchElement No line found,java.util.NoSuchElementException: No line found\000A\0009at flashcard.FlashcardAppTest.testCommandParsing_invalid(FlashCardAppTest.java:55)\000A
+
+
+# Created at 2025-04-11T12:21:57.106
+Unexpected IOException: 5,1,flashcard.FlashcardAppTest,testCommandParsing_orderRandom,null,null,null
+
+
+# Created at 2025-04-11T12:21:57.112
+Unexpected IOException with stream: Successful
+
+
+# Created at 2025-04-11T12:21:57.119
+Unexpected IOException: 6,1,flashcard.FlashcardAppTest,testCommandParsing_orderRandom,null,null,null
+
+
+# Created at 2025-04-11T12:21:57.122
+Unexpected IOException: 5,1,flashcard.FlashcardAppTest,testLoadAndSaveCards,null,null,null
+
+
+# Created at 2025-04-11T12:21:57.130
+Unexpected IOException: 8,1,flashcard.FlashcardAppTest,testLoadAndSaveCards,null,expected: <false> but was: <true>,null,expected: <false> but was: <true>,FlashcardAppTest.testLoadAndSaveCards:33 expected: <false> but was: <true>,org.opentest4j.AssertionFailedError: expected: <false> but was: <true>\000A\0009at flashcard.FlashcardAppTest.testLoadAndSaveCards(FlashCardAppTest.java:33)\000A
+
+
+# Created at 2025-04-11T12:21:57.134
+Unexpected IOException: 2,1,org.apache.maven.surefire.junitplatform.JUnitPlatformProvider,flashcard.FlashcardAppTest,null,null,null
+
+
