@@ -4,8 +4,8 @@ package flashcard;
 import java.util.List;
 import java.util.Scanner;
       // mvn exec:java "-Dexec.args=Day1.txt --invertCards"
-      // mvn exec:java "-Dexec.args=Day1.txt --order <order>"
-      // mvn exec:java "-Dexec.args=Day1.txt --order <order>"
+      // mvn exec:java "-Dexec.args=Day1.txt --order <random>"
+      // mvn exec:java "-Dexec.args=Day1.txt --order <recent-mistakes-first>"
       // mvn exec:java "-Dexec.args=Day1.txt --order <order>"
       // mvn exec:java "-Dexec.args=Day1.txt --repetitions <num>"
 public class FlashcardApp {

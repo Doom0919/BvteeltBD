@@ -17,17 +17,18 @@ public class OrderControl {
             comm = choice.substring(start + 1, end).trim();
          switch (comm) {
             case "random":
-                cards = random(cards);
-                break;
+               return random(cards);
+         
             case "worst-first":
-                cards = worstFirst(cards);
-                break;
+                return worstFirst(cards);
+                
             case "recent-mistakes-first":
-                cards = recentMistakes(cards);
-                break;
+                return recentMistakes(cards);
+            
             default:
               System.out.println("incorrect is order");
-                break;
+              return cards;
+  
          }
     }
     return cards;
@@ -73,6 +74,6 @@ public class OrderControl {
        for (int i = 0; i < cards.size(); i++) {
         cards.set(i, tempCards.get(i));
        }
-       return tempCards;
+       return cards;
     }
 }
